@@ -1,56 +1,35 @@
 #!/usr/bin/python3
-"""Compress web static package
+"""
+    Fabric script that distributes an archive to my web servers
 """
 from fabric.api import *
-from datetime import datetime
-from os import path
-
-
-env.hosts = ['100.25.19.204', '54.157.159.85']
-env.user = 'ubuntu'
-env.key_filename = '~/.ssh/id_rsa'
+from fabric.operations import run, put, sudo
+import os
+env.hosts = ['44.192.72.216', '44.192.52.223']
 
 
 def do_deploy(archive_path):
-        """Deploy web files to server
-        """
-        try:
-                if not (path.exists(archive_path)):
-                        return False
-
-                # upload archive
-                put(archive_path, '/tmp/')
-
-                # create target dir
-                timestamp = archive_path[-18:-4]
-                run('sudo mkdir -p /data/web_static/\
-releases/web_static_{}/'.format(timestamp))
-
-                # uncompress archive and delete .tgz
-                run('sudo tar -xzf /tmp/web_static_{}.tgz -C \
-/data/web_static/releases/web_static_{}/'
-                    .format(timestamp, timestamp))
-
-                # remove archive
-                run('sudo rm /tmp/web_static_{}.tgz'.format(timestamp))
-
-                # move contents into host web_static
-                run('sudo mv /data/web_static/releases/web_static_{}/web_static/* \
-/data/web_static/releases/web_static_{}/'.format(timestamp, timestamp))
-
-                # remove extraneous web_static dir
-                run('sudo rm -rf /data/web_static/releases/\
-web_static_{}/web_static'
-                    .format(timestamp))
-
-                # delete pre-existing sym link
-                run('sudo rm -rf /data/web_static/current')
-
-                # re-establish symbolic link
-                run('sudo ln -s /data/web_static/releases/\
-web_static_{}/ /data/web_static/current'.format(timestamp))
-        except:
-                return False
-
-        # return True on success
+    """
+        using fabric to distribute archive
+    """
+    if os.path.isfile(archive_path) is False:
+        return False
+    try:
+        archive = archive_path.split("/")[-1]
+        path = "/data/web_static/releases"
+        put("{}".format(archive_path), "/tmp/{}".format(archive))
+        folder = archive.split(".")
+        sudo("mkdir -p {}/{}/".format(path, folder[0]))
+        new_archive = '.'.join(folder)
+        sudo("tar -xzf /tmp/{} -C {}/{}/"
+             .format(new_archive, path, folder[0]))
+        sudo("rm /tmp/{}".format(archive))
+        sudo("mv {}/{}/web_static/* {}/{}/"
+             .format(path, folder[0], path, folder[0]))
+        sudo("rm -rf {}/{}/web_static".format(path, folder[0]))
+        sudo("rm -rf /data/web_static/current")
+        sudo("ln -sf {}/{} /data/web_static/current"
+             .format(path, folder[0]))
         return True
+    except Exception:
+        return False
