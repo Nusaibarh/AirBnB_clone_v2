@@ -1,7 +1,7 @@
 <center> <h1>HBNB - The Console</h1> </center>
 
 <p align="center">
-  <img src="https://github.com/bdbaraban/AirBnB_clone_v2/blob/master/assets/hbnb_logo.png" alt="HolbertonBnB logo">
+  <img src="https://github.com/Nusaibarh/AirBnB_clone_v2/blob/master/assets/hbnb_logo.png" alt="HolbertonBnB logo">
 </p>
 
 <h1 align="center">AirBnB</h1>
@@ -18,15 +18,15 @@ This is the console /command interpreter for the ALX-Africa Airbnb clone project
 | ----- | ----- | ------ |
 | 0: Authors/README File | [AUTHORS](./AUTHORS) | Contains info about authors of the project |
 | 1: Pep8 | N/A | All code is pep8 compliant|
-| 2: Unit Testing | [/tests](https://github.com/lordzac/AirBnB_clone_v2/tree/main/tests) | All class-defining modules are unittested |
-| 3. Make BaseModel | [/models/base_model.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/base_model.py) | Defines a parent class to be inherited by all model classes|
-| 4. Update BaseModel w/ kwargs | [/models/base_model.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/base_model.py) | Add functionality to recreate an instance of a class from a dictionary representation|
-| 5. Create FileStorage class | [/models/engine/file_storage.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/engine/file_storage.py) [/models/_ _init_ _.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/__init__.py) [/models/base_model.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/base_model.py) | Defines a class to manage persistent file storage system|
-| 6. Console 0.0.1 | [console.py](https://github.com/Vic-More/AirBnB_clone_v2_v2/blob/main/console.py) | Add basic functionality to console program, allowing it to quit, handle empty lines and ^D |
-| 7. Console 0.1 | [console.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/console.py) | Update the console with methods allowing the user to create, destroy, show, and update stored data |
-| 8. Create User class | [console.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/console.py) [/models/engine/file_storage.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/engine/file_storage.py) [/models/user.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/user.py) | Dynamically implements a user class |
-| 9. More Classes | [/models/user.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/user.py) [/models/place.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/place.py) [/models/city.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/city.py) [/models/amenity.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/amenity.py) [/models/state.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/state.py) [/models/review.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/review.py) | Dynamically implements more classes |
-| 10. Console 1.0 | [console.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/console.py) [/models/engine/file_storage.py](https://github.com/Vic-More/AirBnB_clone_v2/blob/main/models/engine/file_storage.py) | Update the console and file storage system to work dynamically with all  classes update file storage |
+| 2: Unit Testing | [/tests](https://github.com/Nusaibarh/AirBnB_clone_v2/tree/main/tests) | All class-defining modules are unittested |
+| 3. Make BaseModel | [/models/base_model.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/base_model.py) | Defines a parent class to be inherited by all model classes|
+| 4. Update BaseModel w/ kwargs | [/models/base_model.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/base_model.py) | Add functionality to recreate an instance of a class from a dictionary representation|
+| 5. Create FileStorage class | [/models/engine/file_storage.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/engine/file_storage.py) [/models/_ _init_ _.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/__init__.py) [/models/base_model.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/base_model.py) | Defines a class to manage persistent file storage system|
+| 6. Console 0.0.1 | [console.py](https://github.com/Nusaibarh/AirBnB_clone_v2_v2/blob/main/console.py) | Add basic functionality to console program, allowing it to quit, handle empty lines and ^D |
+| 7. Console 0.1 | [console.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/console.py) | Update the console with methods allowing the user to create, destroy, show, and update stored data |
+| 8. Create User class | [console.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/console.py) [/models/engine/file_storage.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/engine/file_storage.py) [/models/user.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/user.py) | Dynamically implements a user class |
+| 9. More Classes | [/models/user.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/user.py) [/models/place.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/place.py) [/models/city.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/city.py) [/models/amenity.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/amenity.py) [/models/state.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/state.py) [/models/review.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/review.py) | Dynamically implements more classes |
+| 10. Console 1.0 | [console.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/console.py) [/models/engine/file_storage.py](https://github.com/Nusaibarh/AirBnB_clone_v2/blob/main/models/engine/file_storage.py) | Update the console and file storage system to work dynamically with all  classes update file storage |
 <br>
 <br>
 <center> <h2>General Use</h2> </center>
