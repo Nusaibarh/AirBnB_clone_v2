@@ -2,12 +2,8 @@
 """ Console Module """
 import cmd
 import sys
-import re
-import os
-from datetime import datetime
-import uuid
 from models.base_model import BaseModel
-from models import storage
+from models.__init__ import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -33,6 +29,7 @@ class HBNBCommand(cmd.Cmd):
              'max_guest': int, 'price_by_night': int,
              'latitude': float, 'longitude': float
             }
+    errlog = []
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -98,7 +95,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, command):
         """ Method to exit the HBNB console"""
-        exit(0)
+        exit()
 
     def help_quit(self):
         """ Prints the help documentation for quit  """
@@ -107,7 +104,7 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, arg):
         """ Handles EOF to exit program """
         print()
-        exit(0)
+        exit()
 
     def help_EOF(self):
         """ Prints the help documentation for EOF """
@@ -119,62 +116,45 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        ignored_attrs = ('id', 'created_at', 'updated_at', '__class__')
-        class_name = ''
-        name_pattern = r'(?P<name>(?:[a-zA-Z]|_)(?:[a-zA-Z]|\d|_)*)'
-        class_match = re.match(name_pattern, args)
-        obj_kwargs = {}
-        if class_match is not None:
-            class_name = class_match.group('name')
-            params_str = args[len(class_name):].strip()
-            params = params_str.split(' ')
-            str_pattern = r'(?P<t_str>"([^"]|\")*")'
-            float_pattern = r'(?P<t_float>[-+]?\d+\.\d+)'
-            int_pattern = r'(?P<t_int>[-+]?\d+)'
-            param_pattern = '{}=({}|{}|{})'.format(
-                name_pattern,
-                str_pattern,
-                float_pattern,
-                int_pattern
-            )
-            for param in params:
-                param_match = re.fullmatch(param_pattern, param)
-                if param_match is not None:
-                    key_name = param_match.group('name')
-                    str_v = param_match.group('t_str')
-                    float_v = param_match.group('t_float')
-                    int_v = param_match.group('t_int')
-                    if float_v is not None:
-                        obj_kwargs[key_name] = float(float_v)
-                    if int_v is not None:
-                        obj_kwargs[key_name] = int(int_v)
-                    if str_v is not None:
-                        obj_kwargs[key_name] = str_v[1:-1].replace('_', ' ')
-        else:
-            class_name = args
-        if not class_name:
+        if not args:
             print("** class name missing **")
             return
-        elif class_name not in HBNBCommand.classes:
+        args = args.split()
+        if args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-            if not hasattr(obj_kwargs, 'id'):
-                obj_kwargs['id'] = str(uuid.uuid4())
-            if not hasattr(obj_kwargs, 'created_at'):
-                obj_kwargs['created_at'] = str(datetime.now())
-            if not hasattr(obj_kwargs, 'updated_at'):
-                obj_kwargs['updated_at'] = str(datetime.now())
-            new_instance = HBNBCommand.classes[class_name](**obj_kwargs)
+        new_instance = HBNBCommand.classes[args[0]]()
+        #new_instance.save()
+        print(new_instance.id)
+        #dcttmp = storage.all()
+        #dctcurr = dcttmp.get(args[0] + "." + new_instance.id)
+        dctcurr = new_instance
+        for i in range(1, len(args)):
+            key = args[i].split("=")
+            try:
+                param = int(key[1])
+            except Exception:
+                try:
+                    param = float(key[1])
+                except Exception:
+                    param = str(key[1].strip('"\''))
+                    param = param.replace("_", " ")
+            key = {key[0]: param}
+            dctcurr.__dict__.update(key)
+        try:
             new_instance.save()
-            print(new_instance.id)
-        else:
-            new_instance = HBNBCommand.classes[class_name]()
-            for key, value in obj_kwargs.items():
-                if key not in ignored_attrs:
-                    setattr(new_instance, key, value)
-            new_instance.save()
-            print(new_instance.id)
+        except Exception as mess:
+            print("There was an error, please try again")
+            print("do showerr to view all and showerr last to view last err")
+            self.errlog.append(mess)
+        finally:
+            pass
+        storage.save()
+
+    def do_showerr(self, args):
+        """View all error in a list or last error"""
+        for err in self.errlog:
+            print(err)
 
     def help_create(self):
         """ Help information for the create method """
@@ -205,7 +185,7 @@ class HBNBCommand(cmd.Cmd):
 
         key = c_name + "." + c_id
         try:
-            print(storage.all()[key])
+            print(storage._FileStorage__objects[key])
         except KeyError:
             print("** no instance found **")
 
@@ -237,7 +217,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            storage.delete(storage.all()[key])
+            del(storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -273,7 +253,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, args):
         """Count current number of class instances"""
         count = 0
-        for k, v in storage.all().items():
+        for k, v in storage._FileStorage__objects.items():
             if args == k.split('.')[0]:
                 count += 1
         print(count)
@@ -371,5 +351,5 @@ class HBNBCommand(cmd.Cmd):
         print("Usage: update <className> <id> <attName> <attVal>\n")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     HBNBCommand().cmdloop()
